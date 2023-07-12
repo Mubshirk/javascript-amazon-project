@@ -1,12 +1,9 @@
-
-
 // creating html using the Arry Products
 
-let productHTML= '';
+let productHTML = "";
 
 products.forEach((product) => {
-  productHTML += 
-  `<div class="product-container">
+  productHTML += `<div class="product-container">
   <div class="product-image-container">
     <img class="product-image"
       src="${product.image}">
@@ -50,17 +47,36 @@ products.forEach((product) => {
     Added
   </div>
 
-  <button class="add-to-cart-button button-primary">
+  <button class="add-to-cart-button button-primary js-add-to-cart"
+  data-product-id='${product.id}'>
     Add to Cart
   </button>
 </div>`;
-
 });
 
+document.querySelector(".js-products-grid").innerHTML = productHTML;
 
-document.querySelector('.js-products-grid').innerHTML= productHTML;
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId = button.dataset.productId;
 
+    let machingItem;
 
+    cart.forEach((item) => {
+      if (productId === item.productId) {
+        machingItem = item;
+      }
+    });
 
+    if (machingItem) {
+      machingItem.quantity += 1;
+    } else {
+      cart.push({
+        productId: productId,
+        quantity: 1,
+      });
+    }
 
-
+    console.log(cart);
+  });
+});
